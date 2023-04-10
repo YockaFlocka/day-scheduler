@@ -111,7 +111,6 @@ function generateSchedule() {
 
       localStorage.setItem(hourId, userTextInput);
     });
-
   }
 }
 
