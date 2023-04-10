@@ -1,14 +1,17 @@
+// gives the current date at the top of the webpage
 var today = dayjs();
 $('#currentDay').text(today.format('MMM D, YYYY'));
 
-
 $(function () {
 
+// parent div
 var mDiv = $(".container-lg");
 
+// current hour when you visit the webpage
 var currentHr = dayjs().format("H");
 console.log(currentHr);
 
+// array of objects with times from 9am-5pm
 var times = [ 
   {
     schedTime: "9AM",
@@ -57,7 +60,7 @@ var times = [
   }
 ]
 
-function generateBlocks() {
+function generateSchedule() {
   for (var i = 0; i < times.length; i++) {
 
     // creating div to hold the id (time block)
@@ -70,11 +73,12 @@ function generateBlocks() {
     schedTimeDiv.addClass("col-2 col-md-1 hour text-center py-3")
     schedTimeDiv.text(times[i].schedTime)
 
-    // 
+    // user text box area
     var textBox = $("<textarea>")
     textBox.addClass("col-8 col-md-10 description")
     textBox.attr("rows", "3")
 
+    // save button that will save to local storage
     var saveButton = $("<button>")
     saveButton.addClass("btn saveBtn col-2 col-md-1")
     saveButton.attr("id", "save-button")
@@ -84,6 +88,7 @@ function generateBlocks() {
     iEl.addClass("fas fa-save")
     iEl.attr("aria-hidden", "true")
 
+    // if else statement to change color of text boxes based on current time
     if (times[i].timeVal < currentHr) {
       divRow.addClass("past");
     } else if (times[i].timeVal == currentHr) {
@@ -92,38 +97,35 @@ function generateBlocks() {
       divRow.addClass("future")
     }
 
+    // appends the divs to the main page
     mDiv.append(divRow)
 
     divRow.append(schedTimeDiv, textBox, saveButton)
     saveButton.append(iEl);
 
-    
+    // event listener to save to local storage when clicking save button
+    saveButton.on("click", function(event) {
+      event.preventDefault();
+      var userTextInput = $(this).siblings(".description").val();
+      var hourId = $(this).parent().attr("id");
+
+      localStorage.setItem(hourId, userTextInput);
+    });
 
   }
 }
 
-generateBlocks();
+generateSchedule();
 
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
+// gets info from local storage to save user text input after refreshing or leaving the page
+$("#hour-9 .description").val(localStorage.getItem("hour-9"))
+$("#hour-10 .description").val(localStorage.getItem("hour-10"))
+$("#hour-11 .description").val(localStorage.getItem("hour-11"))
+$("#hour-12 .description").val(localStorage.getItem("hour-12"))
+$("#hour-13 .description").val(localStorage.getItem("hour-13"))
+$("#hour-14 .description").val(localStorage.getItem("hour-14"))
+$("#hour-15 .description").val(localStorage.getItem("hour-15"))
+$("#hour-16 .description").val(localStorage.getItem("hour-16"))
+$("#hour-17 .description").val(localStorage.getItem("hour-17"))
 
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
 });
