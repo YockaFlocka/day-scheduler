@@ -32,7 +32,7 @@ THEN the saved events persist
 
 The following link will bring you to a live version of the webpage:
 
-![Live Webpage](https://yockaflocka.github.io/day-scheduler/)
+[Live Webpage](https://yockaflocka.github.io/day-scheduler/)
 
 The following screenshot demonstrates the application:
 
